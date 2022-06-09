@@ -1,0 +1,33 @@
+.list {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.iconEnable {
+    color: green;
+}
+.desableIcon {
+    display: none;
+}
+.desableText {
+    text-decoration: line-through;
+}
+.iconDisable {
+    /* display: none; */
+    color: red;
+}
+.icon_container {
+    /* margin: auto; */
+    padding: 15px;
+    font-size: 1.7em;
+}
+.text_container {
+    font-size: 2em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.list {
+    box-shadow: 8px 8px 15px rgb(0 0 0 / 30%);
+    margin-bottom: 40px;
+    border-radius: 10px;
+    height: 100px;
+}
