@@ -1,30 +1,21 @@
 import React,{ useState } from "react";
-import TodoCount from "../TodoCount";
-import TodoItem from "../TodoItem";
-import TodoList from "../TodoList";
-import TodoSearch from "../TodoSearch";
 import './App.css'
+import AppUI from "./AppUI";
+
+const useLocalStorage = () => {
+  const localStorageTodos = localStorage.getItem('TODO_V1')
+  let arrayLocalStorage;
+  if(!localStorageTodos) {
+    localStorage.setItem('TODO_V1', JSON.stringify([]))
+    arrayLocalStorage = []
+  }else {
+    arrayLocalStorage = JSON.parse(localStorageTodos)
+  }
+}
+
 const App = () => {
-  const arrayTodo = [
-    {
-      text: "50km en bicicleta",
-      completed: false
-    },
-    {
-      text: "sacar al parque a rufus",
-      completed: true
-    },
-    {
-      text: "completar los cursos de REACTJS",
-      completed: true
-    },
-    {
-      text: "terminar el curso de ingles",
-      completed: true
-    },
-  ]
   const [searchValue, setSearchValue] = useState('')
-  const [todos, setTodos] = useState(arrayTodo)
+  const [todos, setTodos] = useState(arrayLocalStorage)
 
   const completedTodos = todos.filter(todo => !!todo.completed).length
   const totalTodos = todos.length
@@ -41,27 +32,33 @@ const App = () => {
     })
   }
 
+  const saveTodos = (newTodos) => {
+    const stringifiedTodos = JSON.stringify(newTodos)
+    localStorage.setItem("TODO_V1",stringifiedTodos)
+    setTodos(newTodos)
+  }
+  const onComplete = (text) => {
+    const indexTodo = todos.findIndex(todo => todo.text === text);
+    const newTodos = [...todos]
+    newTodos[indexTodo].completed = true
+    saveTodos(newTodos);
+  }
+  const onDelete = (text) => {
+    const indexTodo = todos.findIndex(todo => todo.text === text)
+    const newTodos = [...todos]
+    newTodos.splice(indexTodo, 1)
+    saveTodos(newTodos)
+  }
   return (
-    <React.Fragment >
-      <div className="container">
-      <TodoCount 
-      completedTodos={completedTodos}
-      totalTodos={totalTodos}
-      />
-      <TodoSearch
-      searchValue={searchValue}
-      setSearchValue={setSearchValue}
-      />
-      <TodoList>
-        {searchedTodos.map(item => (
-          <TodoItem 
-          item={item}
-          completed={item.completed}
-          />
-        ))}
-      </TodoList>
-      </div>
-    </React.Fragment>
+    <AppUI
+    completedTodos={completedTodos}
+    totalTodos={totalTodos}
+    searchValue={searchValue}
+    setSearchValue={setSearchValue}
+    searchedTodos={searchedTodos}
+    onComplete={onComplete}
+    onDelete={onDelete}
+    />
   );
 };
 
