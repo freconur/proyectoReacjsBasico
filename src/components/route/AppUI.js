@@ -4,6 +4,8 @@ import TodoItem from "../TodoItem";
 import TodoList from "../TodoList";
 import TodoSearch from "../TodoSearch";
 const AppUI = ({
+    loading,
+    error,
     completedTodos,
     totalTodos,
     searchValue,
@@ -24,6 +26,9 @@ const AppUI = ({
       setSearchValue={setSearchValue}
       />
       <TodoList>
+        {loading && <p>estamos cargando</p>}
+        {error && <p>hubo un error</p>}
+        {(!loading && !searchedTodos.length) && <p>Creaste tu primer todo</p>}
         {searchedTodos.map(item => (
           <TodoItem 
           item={item}
