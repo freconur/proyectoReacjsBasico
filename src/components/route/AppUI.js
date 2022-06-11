@@ -10,7 +10,9 @@ const AppUI = ({
     setSearchValue,
     searchedTodos,
     onComplete,
-    onDelete
+    onDelete,
+    loading,
+    error
 }) => {
   return (
     <React.Fragment >
@@ -19,6 +21,9 @@ const AppUI = ({
       completedTodos={completedTodos}
       totalTodos={totalTodos}
       />
+      {loading && <p>cargando</p>}
+      {error && <p>ocurrio un error</p>}
+      {(!loading && !searchedTodos.length) && <p>crea tu primer todo</p> }
       <TodoSearch
       searchValue={searchValue}
       setSearchValue={setSearchValue}
